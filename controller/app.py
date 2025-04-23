@@ -235,6 +235,7 @@ def send_money():
                             for b in customer['Bank']:
                                 if b['Account_no'] ==my_account_code and customer['customer'] ==  new_transactions.get('name'):
                                     message_to_sender_required_info = b
+                                    break
                         if message_to_sender_required_info['name'].lower() =='bk':
                             message_to_sender = next((messg['message'] for messg in bk_transactions if messg['Transaction_id'] ==message_to_sender_required_info['Transaction_id']),None)
                             new_balance = next((bal for bal in bk_transactions if bal['Transaction_id']==message_to_sender_required_info['Transaction_id']),None)
