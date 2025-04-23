@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Transaction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            gap: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .bank-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .bank-info h2 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .bank-info li {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #34495e;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        form input,
+        form select,
+        form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+        }
+
+        form textarea {
+            resize: vertical;
+        }
+
+        form button {
+            margin-top: 30px;
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        form button:hover {
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+        }
+        form .quit{
+            background: linear-gradient(90deg, #9b59b6, #e67e22);
+
+        }
+        form .quit:hover{
+            background:linear-gradient(90deg, #366c4c,#185279,);
+        }
+        .popup_container{
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 100;
+            backdrop-filter: blur(1px);
+            justify-content: center;
+            visibility: hidden;
+            transition: visibility .1s ease-in-out;
+        }
+        .popup{
+            max-width: 500px;
+            background: #ccc;
+            padding: 10px;
+            box-shadow: 4px 3px 5px  #333;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+
+        }
+        .popup input{
+            margin: 0 auto;
+            width: 100%;
+            height: 30px;
+            font-family: poppins;
+            outline: none;
+            background: #f0f2f5;
+            border: 1px solid gray;
+            border-radius: 6px;
+            padding-left: 10px;
+            font-weight: bold;
+            transition: border .3s ease-in-out;
+
+        }
+        .popup input:focus{
+            border: 2px solid #2ecc71;
+        }
+        .popup form{
+            width: 100%;
+        }
+        .popup button{
+            width: 100%;
+            height: max-content;
+            border: none;
+            font-family: poppins,sans-serif;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 2px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            background: linear-gradient(to left,#3498db,#2ecc71);
+            transition: background .3s ease-in-out;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+        }
+        .popup button:hover{
+            background:linear-gradient(to left,#2ecc71,#3498db);
+        }
+        .show{
+            visibility: visible;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from{opacity: 0;}
+            to{opacity: 1;}
+        }
+        .message_contents{
+            position: fixed;
+            z-index:20;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            visibility: hidden;
+            
+
+        }
+        .message_contents_content{
+       
+            max-width: 500px;
+            padding: 20px 10px;
+            background-color: #34495e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 100px auto 0 auto; 
+            position: relative;           
+        }
+
+        .message_contents h2{
+            color: #ecf0f1;
+        }
+        .message_contents ul li{
+            color: #a7a7a7;
+        }
+        .view_message_btn{
+            width: max-content;
+            padding: 4px 8px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #2c3e50;
+            transition: transform , background ,color .1s  ease-in-out;
+        }
+        .view_message_btn:hover{
+            transform: scale(1.2);
+            background: #34495e;
+            color: white;
+        }
+        .make_a_deposit{
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            max-width: 700px;
+            border-radius: 20px;
+            padding: 30px;
+            
+        }
+        .change_theme_btn {
+            width: 60px;                      /* Fixed size wrapper */
+            height: 60px;
+            display: inline-flex;             /* Keeps it inline */
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;                /* Prevent scaled content from escaping */
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        .icon {
+            font-size: 40px;
+            transition: transform 0.2s ease;
+            transform-origin: center;
+            cursor: pointer;
+        }
+
+        .icon:hover {
+            transform: scale(1.5);           /* Zoom in */
+        }
+        .black{
+            color: white;
+            background-color: black;
+        }
+.aside_container{
+           
+           backdrop-filter: blur(10px);
+           width: 100%;
+           height: 100px;
+           position:fixed;
+           top: 0;
+           left: 0;
+           right: 10;
+           border-bottom: 1px solid #ccc;
+           display: flex;
+           padding: 20px;
+           align-items: center;
+           justify-content: space-between;
+           
+                
+       }
+.apps_icon {
+    padding: 10px 12px;
+    font-size: 25px;
+    border: none;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.apps_icon:hover {
+    background-color: #bdc3c7;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 700,
+        'GRAD' 0,
+        'opsz' 24;
+    transition: color 0.2s ease-in-out;
+}
+
+.apps_icon:hover .material-symbols-outlined {
+    color: #1abc9c; 
+    position: relative;/* Aqua-like highlight on hover */
+}
+.aside{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+
+}
+.aside_drop_down{
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100px;
+    border-right: 2px solid green;
+    padding: 20px;
+    visibility: hidden;
+    background-color: #1e1e2f; /* deep blue-black */
+}
+
+.aside_drop_down a{
+    color: #ffffff;
+}
+.aside_drop_down li{
+    list-style-type: none;
+}
+.show-drop-down{
+    visibility: visible;
+    animation: hide-it .3s forwards;
+}
+@keyframes hide-it {
+    0%{
+        transform: translateX(0);
+        visibility: visible;
+        opacity: 0;
+    }
+    99%{
+        opacity: 1;
+    }
+}
+
+.media_effects{
+    visibility: hidden;
+}
+.meta-links-container{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+    
+}
+.meta-links-container ,li, a{
+    list-style-type: none;
+    text-decoration: none;
+}
+.meta-links-container li a:hover{
+    color: #366c4c;
+}
+@media (max-width:950px) {
+    .media_effects{
+        visibility: visible;
+    }
+    .meta-links-container{
+        visibility: hidden;
+    }
+}
+
+
+   </style>
+</head>
+<body>
+
+    <div class="message_container">
+        <div class="aside_container">
+            <div class="aside">
+                <button class="media_effects"><span class="material-symbols-outlined apps_icon">apps</span></button>
+                <div class="meta-links-container">
+                    <li><a href="#">Start Exam</a></li>
+                      <li><a href="#">My Completed Exams</a></li>
+                      <li><a href="#">Exam Results</a></li>
+                </div>
+        
+                <div class="aside_drop_down">
+                    <ul>
+                      <li><a href="#">Start Exam</a></li>
+                      <li><a href="#">My Completed Exams</a></li>
+                      <li><a href="#">Exam Results</a></li>
+                      <li><a href="#">Upcoming Exams</a></li>
+                      <li><a href="#">Start Exam</a></li>
+                      <li><a href="#">My Completed Exams</a></li>
+                      <li><a href="#">Exam Results</a></li>
+                      <li><a href="#">Upcoming Exams</a></li>
+                      <li><a href="#">Start Exam</a></li>
+                      <li><a href="#">My Completed Exams</a></li>
+                      <li><a href="#">Exam Results</a></li>
+                      <li><a href="#">Upcoming Exams</a></li>
+                      <li><a href="#">Start Exam</a></li>
+                      <li><a href="#">My Completed Exams</a></li>
+                      <li><a href="#">Exam Results</a></li>
+                      <li><a href="#">Upcoming Exams</a></li>
+                      <li><a href="#">Start Exam</a></li>
+                      <li><a href="#">My Completed Exams</a></li>
+                      <li><a href="#">Exam Results</a></li>
+                      <li><a href="#">Upcoming Exams</a></li>
+                      <li><a href="#">Start Exam</a></li>
+                      <li><a href="#">My Completed Exams</a></li>
+                      <li><a href="#">Exam Results</a></li>
+                      <li><a href="#">Upcoming Exams</a></li>
+                      <li><a href="#">Start Exam</a></li>
+                      <li><a href="#">My Completed Exams</a></li>
+                      <li><a href="#">Exam Results</a></li>
+                      <li><a href="#">Upcoming Exams</a></li>
+                    </ul>
+                  </div>
+                  
+            </div>
+            <div class="change_theme_btn">
+                <span class="material-symbols-outlined icon">wb_incandescent</span>
+            </div>
+            <button class="view_message_btn"><span class="material-symbols-outlined">menu</span></button>
+         </div>
+        <div class="message_contents">
+            <div class="message_contents_content">
+                <h2>Recent Transactions</h2>
+                <ul>
+                    <li class="received">{{message[0]}}</li>
+                    <li class="received">{{message[1]}}</li>
+                    <li class="received">{{message[2]}}</li>
+                    <li class="received">{{message[3]}}</li>
+                    <li class="received">{{message[4]}}</li>
+                    <li class="received">{{message[5]}}</li>
+                    <li class="received">{{message[6]}}</li>
+                    <li class="received">{{message[7]}}</li>
+
+                   
+                    
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="bank-info">
+            <h2>Primary Information</h2>
+            <ul>
+                <li><strong>Selected Bank:</strong> {{ bank_info['Bank'] }}</li>
+                <li><strong>My deposit:</strong> ${{deposit}}</li>
+                <li><strong>Security Charges:</strong> {{ bank_info['security'] }}</li>
+                <li><strong>Insurance Charges:</strong> ${{ bank_info['insurance'] }}</li>
+                <li><strong>My overall Balance:</strong> ${{balance}}</li>
+            </ul>
+        </div>
+
+        <form action="/transaction" method="POST" class="transaction_form">
+            <h1>Welcome, {{ customer }}</h1>
+            <h2>{{ bank_info['Bank'] }} Transaction Form</h2>
+
+     
+            <label for="account">Receiver's Account Number</label>
+            <input type="text" name="account" id="account" required>
+
+            <input type="hidden" name="account_code" id="hidden_account_code">
+
+            <label for="amount">Amount ($)</label>
+            <input type="number" name="amount" id="amount" required min="100">
+     
+            <label for="bank">Select Bank</label>
+            <select name="bank" id="bank" required>
+                <option value="">-- Choose a bank --</option>
+                <option value="BK">Bank of Kigali</option>
+                <option value="EQUITY BANK">Equity Bank</option>
+                <option value="UMUTANGUHA Finance">Umutanguha Finance</option>
+            </select>
+
+            <label for="message">Message (optional)</label>
+            <textarea name="message" id="message" rows="3" placeholder="E.g., School fees, Rent..."></textarea>
+
+            
+            <button type="button" class="quit">Quit Sending money</button>
+            <button type="submit">Send Money</button>
+        </form>
+    </div>
+    
+    <div class="popup_container">
+        <div class="popup">
+            <h1>Enter your {{bank_info['Bank']}} account code</h1>
+                <input type="text" class="account_code_placeholder" required placeholder="Enter here your code" ><br><br>
+                <button type="button" class="confirmBtn">Confirm & Send</button>
+         </div>
+    </div>
+
+
+    <div class="make_a_deposit">
+        <h1>Add a new deposit to your {{bank_info['Bank']}}</h1>
+        <H2>Please fill this form</H2>
+        <form action="/deposit" method="post">
+            <label for="amount">Enter amount to deposit:</label>
+            <input type="number" min="1" id="amount" name="amount"><br><br>
+            <button type="submit">Confirm and save</button>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+    <script>
+        document.querySelector('.transaction_form').addEventListener('submit',e=>{
+            e.preventDefault()
+            document.querySelector('.popup_container').classList.add('show')
+
+
+        })
+        document.querySelector('.popup_container').addEventListener("click",e=>{
+            if(!e.target.closest('.popup')){
+                document.querySelector('.popup_container').classList.remove('show')
+            }
+        })
+        document.querySelector('.confirmBtn').addEventListener('click' ,()=>{
+          const code = document.querySelector('.account_code_placeholder').value
+        if(code){
+            document.querySelector('#hidden_account_code').value = code;
+            document.querySelector('.popup_container').classList.remove('show')
+            document.querySelector('.transaction_form').submit()
+        }else{
+            alert('Please enter your account code for confirmation')
+        }
+        })
+        document.querySelector('.quit').addEventListener("click",()=>{
+            document.querySelector('.transaction_form').action ="/"
+            document.querySelector('.transaction_form').method ='get'
+            document.querySelector('.transaction_form').submit()
+        })
+        document.querySelector('.view_message_btn').addEventListener('click', ()=>{
+            document.querySelector('.message_contents').style.visibility ='visible'; 
+        })
+        document.querySelector('.message_contents').addEventListener('click' , e=>{
+            if(!e.target.closest('.message_contents_content')){
+                document.querySelector('.message_contents').style.visibility ='hidden'; 
+    
+            }
+        })
+
+        document.querySelector('.icon').addEventListener('click',(e)=>{
+            if(e.target.closest(".change_theme_btn")){
+                document.body.classList.toggle('black')
+            }
+        })
+        document.querySelector('.apps_icon').addEventListener('click' ,(e)=>{
+            if(e.target.closest('.apps_icon')){
+                document.querySelector('.aside_drop_down').classList.toggle('show-drop-down')
+            }
+        })
+            document.body.addEventListener('click',e=>{
+                const sidebar = document.querySelector('.aside_drop_down');
+                const clickedOutside = !e.target.closest('.aside_drop_down') && !e.target.closest(".aside_container") 
+            if(clickedOutside && sidebar.classList.contains('show-drop-down')){
+                sidebar.classList.remove('show-drop-down')
+            }
+        })
+        
+    </script>
+</body>
+</html>

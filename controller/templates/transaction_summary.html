@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+        .label {
+            font-weight: bold;
+            color: #333;
+        }
+        .transaction-detail {
+            margin-bottom: 10px;
+        }
+        .transaction-detail span {
+            color: #666;
+        }
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Transaction Summary</h1>
+  
+    
+    <div class="transaction-detail">
+        <p class="label">Receiver:</p>
+        <p>{{ receiver }}</p>
+    </div>
+
+    
+    
+    <div class="transaction-detail">
+  
+    
+    
+    <div class="transaction-detail">
+        <p class="label">Receiver's Bank:</p>
+        <p>{{ receivers_bank }}</p>
+    </div>
+    
+    <div class="transaction-detail">
+        <p class="label">Amount Sent:</p>
+        <p>${{ send_amount }}</p>
+    </div>
+    
+    <div class="transaction-detail">
+        <p class="label">Message:</p>
+        <p>{{ message }}</p>
+    </div>
+
+    <a href="/" class="back-button">Go Back</a>
+</div>
+
+</body>
+</html>
