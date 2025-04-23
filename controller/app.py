@@ -236,31 +236,32 @@ def send_money():
                                 if b['Account_no'] ==my_account_code and customer['customer'] ==  new_transactions.get('name'):
                                     message_to_sender_required_info = b
                                     break
-                        if message_to_sender_required_info['name'].lower() =='bk':
-                            message_to_sender = next((messg['message'] for messg in bk_transactions if messg['Transaction_id'] ==message_to_sender_required_info['Transaction_id']),None)
-                            new_balance = next((bal for bal in bk_transactions if bal['Transaction_id']==message_to_sender_required_info['Transaction_id']),None)
-                        elif message_to_sender_required_info['name'].lower() =='equity bank':
-                            message_to_sender = next((messg['message'] for messg in equity_transactions if messg['Transaction_id'] ==message_to_sender_required_info['Transaction_id']),None)
-                            new_balance = next((bal for bal in equity_transactions if bal['Transaction_id']==message_to_sender_required_info['Transaction_id']),None)                            
-                        elif message_to_sender_required_info['name'].lower() =='umutanguha finance':
-                            message_to_sender = next((messg['message'] for messg in umtangh_transactions if messg['Transaction_id'] ==message_to_sender_required_info['Transaction_id']),None)
-                            new_balance = next((bal  for bal in umtangh_transactions if bal['Transaction_id']==message_to_sender_required_info['Transaction_id']),None)  
-
-                        new_balance['deposit'] = int(new_balance['deposit']) - int(sending_amount)
-                      
-                        message_to_sender.append(f"You have sent ${sending_amount} to {get_receiver_name}")
-
-                        message_to_receiver = receiver_transaction['message']
-                        message_to_receiver.append(f"You have received {sending_amount} from {new_transactions['name']} ")
-
-
-                        return render_template("transaction_summary.html", 
-                        
-                                receiver = get_receiver_name,
-                                send_amount=sending_amount,
-                                receivers_bank=receivers_bank,
-                               
-                            )
+                        if message_to_sender_required_info:
+                              if message_to_sender_required_info['name'].lower() =='bk':
+                                  message_to_sender = next((messg['message'] for messg in bk_transactions if messg['Transaction_id'] ==message_to_sender_required_info['Transaction_id']),None)
+                                  new_balance = next((bal for bal in bk_transactions if bal['Transaction_id']==message_to_sender_required_info['Transaction_id']),None)
+                              elif message_to_sender_required_info['name'].lower() =='equity bank':
+                                  message_to_sender = next((messg['message'] for messg in equity_transactions if messg['Transaction_id'] ==message_to_sender_required_info['Transaction_id']),None)
+                                  new_balance = next((bal for bal in equity_transactions if bal['Transaction_id']==message_to_sender_required_info['Transaction_id']),None)                            
+                              elif message_to_sender_required_info['name'].lower() =='umutanguha finance':
+                                  message_to_sender = next((messg['message'] for messg in umtangh_transactions if messg['Transaction_id'] ==message_to_sender_required_info['Transaction_id']),None)
+                                  new_balance = next((bal  for bal in umtangh_transactions if bal['Transaction_id']==message_to_sender_required_info['Transaction_id']),None)  
+      
+                              new_balance['deposit'] = int(new_balance['deposit']) - int(sending_amount)
+                            
+                              message_to_sender.append(f"You have sent ${sending_amount} to {get_receiver_name}")
+      
+                              message_to_receiver = receiver_transaction['message']
+                              message_to_receiver.append(f"You have received {sending_amount} from {new_transactions['name']} ")
+      
+      
+                              return render_template("transaction_summary.html", 
+                              
+                                  receiver = get_receiver_name,
+                                  send_amount=sending_amount,
+                                  receivers_bank=receivers_bank,
+                                 
+                              )
 
                     else:
                          return render_template('Error-page.html',error_code=400,error_message='Invalid Receiver\'s credentials',error_details='pLease check your receiver\'s account number or user name.and try again')
