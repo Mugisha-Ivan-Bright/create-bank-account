@@ -282,7 +282,7 @@ def send_money():
                 return render_template('Error-page.html',error_code=400,error_message='Invalid account number',error_details='pLease check your account number very well')
 
     else:
-        return render_template('Error-page',error_code = 400,error_message="Bad request",error_details="Please.recheck your submission details")   
+        return render_template('Error-page.html',error_code = 400,error_message="Bad request",error_details="Please.recheck your submission details")   
 
 @app.route("/deposit" , methods =['GET','POST'])
 def make_a_deposit():
